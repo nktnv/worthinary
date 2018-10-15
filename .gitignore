@@ -1,0 +1,10 @@
+.idea
+
+public/assets/
+public/assets.json
+
+apps/web/assets/yarn-error.log
+node_modules/
+
+tmp/
+.env

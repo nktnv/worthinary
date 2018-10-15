@@ -1,0 +1,3 @@
+project=worthinary
+test=rspec
+template=erb

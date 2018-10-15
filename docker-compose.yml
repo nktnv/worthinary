@@ -1,0 +1,47 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:10.5-alpine
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - back-end
+    env_file: .env
+
+  web:
+    build: .
+    command: 'bundle exec hanami server --host 0.0.0.0 -p 3000'
+    ports:
+      - 3000:3000
+    volumes:
+      - gems:/usr/local/bundle:cached
+      - .:/web
+    networks:
+      - back-end
+    env_file: .env
+    stdin_open: true
+    tty: true
+
+  node:
+    image: node:10-alpine
+    command:
+      - /bin/sh
+      - '-c'
+      - |
+        yarn install
+        yarn run dev
+    working_dir: /web/apps/web/assets
+    ports:
+      - 3500:3500
+    env_file: .env
+    volumes:
+      - .:/web:cached
+
+volumes:
+  gems:
+  db:
+
+networks:
+  back-end:
