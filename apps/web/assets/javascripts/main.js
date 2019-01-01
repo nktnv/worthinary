@@ -10,3 +10,20 @@ new Vue({
   },
   render: h => h(App)
 })
+
+
+let tasks = [
+  {
+    id: 1,
+    name: 'food',
+    priority: 0,
+    description: 'buy milk'
+  },
+  {
+    id: 2,
+    name: 'car',
+    priority: 3,
+    description: 'repair door'
+  }
+]
+localStorage.tasks = JSON.stringify(tasks);

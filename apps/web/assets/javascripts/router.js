@@ -2,27 +2,29 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Tasks from './components/Tasks'
-import Task from './components/Task'
-import App from './App'
+import AddTask from './components/AddTask'
+import TaskDetails from './components/TaskDetails'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    component: Tasks
+    path: '/tasks/add',
+    component: AddTask
   },
   {
     path: '/tasks',
     component: Tasks
   },
   {
-    path: '/tasks/:id',
-    component: Task
+    path: '/tasks/:name',
+    component: TaskDetails,
+    name: 'task-details',
+    props: true
   },
   {
     path: '*',
-    component: App
+    component: Tasks
   }
 ]
 

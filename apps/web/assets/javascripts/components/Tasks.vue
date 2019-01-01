@@ -1,38 +1,43 @@
 <template>
     <div class="container">
-        <a v-for="task in tasks" class="box">
-          <h1>{{ task.name }}</h1>
-          <span class="tag is-light">{{  task.priority }}</span>
-          <p>{{ task.description }}</p>
-          <router-link to="/task/1">show</router-link>
-          <button v-on:click="deleteTask(task.name)" class="button is-danger">Delete</button>
-        </a>
+      <div class="section">
+        <router-link to="/tasks/add" class="button is-success is-large">Add new task</router-link>
+      </div>
+      <Task
+        v-for="task in tasks"
+        :key="task.name"
+        :taskData="task"
+      />
     </div>
 </template>
 
 <script>
+  import Task from './Task'
+  import { EventBus } from '../event-bus.js';
+
   export default {
     name: 'Tasks',
     data() {
       return {
-        tasks: [
-          {
-            name: 'food',
-            priority: 0,
-            description: 'buy milk'
-          },
-          {
-            name: 'car',
-            priority: 3,
-            description: 'repair door'
-          }
-        ]
+        tasks: []
+      }
+    },
+    mounted() {
+      this.tasks = JSON.parse(localStorage.getItem('tasks'));
+      EventBus.$on('delete-task', name => this.deleteTask(name));
+    },
+    watch: {
+      tasks(data) {
+        localStorage.tasks = JSON.stringify(data);
       }
     },
     methods: {
       deleteTask(taskName) {
         this.tasks = this.tasks.filter(task => task.name !== taskName);
       }
+    },
+    components: {
+      Task
     }
   }
 </script>
