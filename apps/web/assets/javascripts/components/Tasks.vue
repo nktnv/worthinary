@@ -14,27 +14,26 @@
 <script>
   import Task from './Task'
   import { EventBus } from '../event-bus.js';
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
     name: 'Tasks',
     data() {
-      return {
-        tasks: []
-      }
+      return {}
+    },
+    computed: {
+      ...mapGetters({
+        tasks: 'getTasks'
+      })
+    },
+    created() {
+      this.$store.dispatch('loadTasks');
     },
     mounted() {
-      this.tasks = JSON.parse(localStorage.getItem('tasks'));
       EventBus.$on('delete-task', name => this.deleteTask(name));
     },
-    watch: {
-      tasks(data) {
-        localStorage.tasks = JSON.stringify(data);
-      }
-    },
     methods: {
-      deleteTask(taskName) {
-        this.tasks = this.tasks.filter(task => task.name !== taskName);
-      }
+      ...mapActions(['deleteTask'])
     },
     components: {
       Task

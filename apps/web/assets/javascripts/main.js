@@ -1,16 +1,17 @@
 import Vue from 'vue'
 import App from './App'
-import {router} from './router'
+import { router } from './router'
+import store from './store/store'
 
 new Vue({
   router,
+  store,
   el: '#app-container',
   components: {
     App
   },
   render: h => h(App)
 })
-
 
 let tasks = [
   {
